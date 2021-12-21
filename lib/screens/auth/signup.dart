@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
+import 'package:twitter_clone/screens/auth/signin.dart';
 
 class Signup extends StatefulWidget {
   Signup({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _SignupState extends State<Signup> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      // TODO: Send user to home page
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -67,6 +69,27 @@ class _SignupState extends State<Signup> {
             ),
           ),
           const Spacer(flex: 1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Already have an account? "),
+              GestureDetector(
+                child: const Text(
+                  "Sign in here!",
+                  style: TextStyle(
+                    color: Color.fromRGBO(29, 161, 242, 1),
+                  ),
+                ),
+                onTap: () => {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Signin()),
+                  ),
+                },
+              ),
+            ],
+          ),
+          const Spacer(flex: 1),
         ],
       ),
     );
@@ -78,6 +101,11 @@ class _SignupState extends State<Signup> {
       child: Form(
         child: Column(
           children: [
+            const Spacer(flex: 1),
+            const Text(
+              "Sign Up",
+              style: TextStyle(fontSize: 28, color: Colors.white),
+            ),
             const Spacer(flex: 1),
             const SizedBox(
               height: 100,

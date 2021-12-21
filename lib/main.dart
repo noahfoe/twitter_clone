@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/screens/home_screen.dart';
-import 'auth/signup.dart';
+import 'package:twitter_clone/screens/auth/signin.dart';
+import 'package:twitter_clone/screens/auth/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
@@ -21,14 +21,15 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Twitter',
-                theme: ThemeData(
-                  primarySwatch: Colors.blue,
-                ),
-                home: Signup()
-                //home: const MyHomePage(title: 'Twitter'),
-                );
+              debugShowCheckedModeBanner: false,
+              title: 'Twitter',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: Signup(),
+              //home: Signup()
+              //home: const MyHomePage(title: 'Twitter'),
+            );
           }
           return const CircularProgressIndicator();
         });
