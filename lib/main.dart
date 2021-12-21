@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
-import 'package:twitter_clone/screens/auth/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
@@ -10,6 +9,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              home: Signup(),
+              home: const Signin(),
               //home: Signup()
               //home: const MyHomePage(title: 'Twitter'),
             );

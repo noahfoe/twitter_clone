@@ -3,30 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
 import 'package:twitter_clone/screens/auth/signup.dart';
+import 'package:twitter_clone/screens/home_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Signin extends StatefulWidget {
-  Signin({Key? key}) : super(key: key);
+  const Signin({Key? key}) : super(key: key);
 
   @override
   _SigninState createState() => _SigninState();
 }
 
 class _SigninState extends State<Signin> {
+  FToast? fToast;
+
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast!.init(context);
+  }
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
   void signInAction() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      // TODO: Send user to home page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: "Twitter")),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
-        print('The password provided is incorrect.');
+        _showToast("The password provided is incorrect.");
       } else if (e.code == 'user-not-found') {
-        print('An account with that email does not exist.');
+        _showToast("An account with that email does not exist.");
       }
     } catch (e) {
-      print(e);
+      _showToast("An unexpected error has occurred.");
     }
   }
 
@@ -83,7 +98,7 @@ class _SigninState extends State<Signin> {
                 onTap: () => {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Signup()),
+                    MaterialPageRoute(builder: (context) => const Signup()),
                   ),
                 },
               ),
@@ -130,6 +145,34 @@ class _SigninState extends State<Signin> {
           ],
         ),
       ),
+    );
+  }
+
+  _showToast(String msg) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.redAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            msg,
+            style: const TextStyle(fontSize: 15, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+
+    fToast!.showToast(
+      child: toast,
+      gravity: ToastGravity.CENTER,
+      toastDuration: const Duration(seconds: 2),
     );
   }
 }
