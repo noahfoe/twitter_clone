@@ -6,6 +6,7 @@ import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:twitter_clone/screens/home_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:twitter_clone/services/auth_service.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -25,31 +26,7 @@ class _SignupState extends State<Signup> {
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
-
-  UserModel _userFromFirebaseUser(User user) {
-    return UserModel(id: user.uid);
-  }
-
-  void signUpAction(String email, String password, BuildContext context) async {
-    try {
-      User user = (await auth.createUserWithEmailAndPassword(
-          email: email, password: password)) as User;
-      _userFromFirebaseUser(user);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: "Twitter")),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        _showToast("The password provided is too weak.", context);
-      } else if (e.code == 'email-already-in-use') {
-        _showToast("The account already exists for that email.", context);
-      }
-    } catch (e) {
-      _showToast("An unexpected error has occured.", context);
-    }
-  }
+  final AuthService _authService = AuthService();
 
   String email = "";
   String password = "";
@@ -70,7 +47,11 @@ class _SignupState extends State<Signup> {
           ),
           const Spacer(flex: 1),
           ElevatedButton(
-            onPressed: () async => {signUpAction(email, password, context)},
+            onPressed: () async => {
+              _authService.signUpAction(email, password, context),
+              if (_authService.message != "")
+                {_showToast(_authService.message, context)}
+            },
             child: const Text(
               "Sign Up",
               style: TextStyle(color: Color.fromRGBO(29, 161, 242, 1)),

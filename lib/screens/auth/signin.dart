@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/components/signup/email_field.dart';
-import 'package:twitter_clone/components/signup/password_field.dart';
-import 'package:twitter_clone/models/user.dart';
-import 'package:twitter_clone/screens/auth/signup.dart';
-import 'package:twitter_clone/screens/home_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:twitter_clone/components/signup/email_field.dart';
+import 'package:twitter_clone/components/signup/password_field.dart';
+import 'package:twitter_clone/screens/auth/signup.dart';
+import 'package:twitter_clone/services/auth_service.dart';
+
 class Signin extends StatefulWidget {
-  const Signin({Key? key}) : super(key: key);
+  const Signin({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SigninState createState() => _SigninState();
@@ -16,6 +18,7 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   FToast? fToast;
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -27,37 +30,8 @@ class _SigninState extends State<Signin> {
   String email = "";
   String password = "";
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  UserModel _userFromFirebaseUser(User user) {
-    return UserModel(id: user.uid);
-  }
-
-  Future signInAction(
-      String email, String password, BuildContext context) async {
-    try {
-      User user = (await auth.signInWithEmailAndPassword(
-          email: email, password: password)) as User;
-      _userFromFirebaseUser(user);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: "Twitter")),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password') {
-        _showToast("The password provided is incorrect.", context);
-      } else if (e.code == 'user-not-found') {
-        _showToast("An account with that email does not exist.", context);
-      }
-    } catch (e) {
-      _showToast("An unexpected error has occurred.", context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool _isObscure = true;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -67,11 +41,19 @@ class _SigninState extends State<Signin> {
           Container(
             height: height / 1.4,
             color: const Color.fromRGBO(29, 161, 242, 1),
-            child: myCustomForm(_isObscure),
+            child: myCustomForm(),
           ),
           const Spacer(flex: 1),
           ElevatedButton(
-            onPressed: () async => {signInAction(email, password, context)},
+            onPressed: () async => {
+              _authService.signInAction(
+                email,
+                password,
+                context,
+              ),
+              if (_authService.message != "")
+                {_showToast(_authService.message, context)}
+            },
             child: const Text(
               "Sign In",
               style: TextStyle(color: Color.fromRGBO(29, 161, 242, 1)),
@@ -117,7 +99,7 @@ class _SigninState extends State<Signin> {
     );
   }
 
-  myCustomForm(bool _isObscure) {
+  myCustomForm() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       child: Form(

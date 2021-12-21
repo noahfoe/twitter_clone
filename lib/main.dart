@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:twitter_clone/screens/wrapper.dart';
+import 'package:twitter_clone/services/auth_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +25,17 @@ class MyApp extends StatelessWidget {
             //return ErrorPage();
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Twitter',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
+            return StreamProvider(
+              create: (context) => context.read<AuthService>().authStateChanges,
+              initialData: null,
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Twitter',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: const Wrapper(),
               ),
-              home: const Signin(),
-              //home: Signup()
-              //home: const MyHomePage(title: 'Twitter'),
             );
           }
           return const CircularProgressIndicator();

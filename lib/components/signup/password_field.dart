@@ -30,7 +30,7 @@ class _PasswordFieldState extends State<PasswordField> {
             color: Color.fromRGBO(29, 161, 242, 1),
           ),
           suffixIcon: IconButton(
-            icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+            icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
             onPressed: () {
               setState(() {
                 _isObscure = !_isObscure;
