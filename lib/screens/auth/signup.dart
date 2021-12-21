@@ -36,12 +36,12 @@ class _SignupState extends State<Signup> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        _showToast("The password provided is too weak.");
+        _showToast("The password provided is too weak.", context);
       } else if (e.code == 'email-already-in-use') {
-        _showToast("The account already exists for that email.");
+        _showToast("The account already exists for that email.", context);
       }
     } catch (e) {
-      _showToast("An unexpected error has occured.");
+      _showToast("An unexpected error has occured.", context);
     }
   }
 
@@ -148,7 +148,10 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  _showToast(String msg) {
+  _showToast(String msg, context) {
+    bool smallPhone = false;
+    double width = MediaQuery.of(context).size.width;
+    if (width <= 370) smallPhone = true;
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
@@ -163,7 +166,8 @@ class _SignupState extends State<Signup> {
           ),
           Text(
             msg,
-            style: const TextStyle(fontSize: 15, color: Colors.white),
+            style:
+                TextStyle(fontSize: smallPhone ? 13 : 15, color: Colors.white),
           ),
         ],
       ),

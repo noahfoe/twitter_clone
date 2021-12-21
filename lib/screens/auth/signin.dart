@@ -36,12 +36,12 @@ class _SigninState extends State<Signin> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
-        _showToast("The password provided is incorrect.");
+        _showToast("The password provided is incorrect.", context);
       } else if (e.code == 'user-not-found') {
-        _showToast("An account with that email does not exist.");
+        _showToast("An account with that email does not exist.", context);
       }
     } catch (e) {
-      _showToast("An unexpected error has occurred.");
+      _showToast("An unexpected error has occurred.", context);
     }
   }
 
@@ -148,7 +148,10 @@ class _SigninState extends State<Signin> {
     );
   }
 
-  _showToast(String msg) {
+  _showToast(String msg, context) {
+    bool smallPhone = false;
+    double width = MediaQuery.of(context).size.width;
+    if (width <= 370) smallPhone = true;
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
@@ -163,7 +166,8 @@ class _SigninState extends State<Signin> {
           ),
           Text(
             msg,
-            style: const TextStyle(fontSize: 15, color: Colors.white),
+            style:
+                TextStyle(fontSize: smallPhone ? 13 : 15, color: Colors.white),
           ),
         ],
       ),
