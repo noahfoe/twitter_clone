@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:twitter_clone/models/user.dart';
-import 'package:twitter_clone/screens/auth/signup.dart';
+import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:twitter_clone/screens/home_screen.dart';
+import 'package:twitter_clone/screens/tweets/add_tweet.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);
@@ -12,10 +13,16 @@ class Wrapper extends StatelessWidget {
     final UserModel? user = Provider.of<UserModel?>(context);
     if (user == null) {
       // show auth system routes
-      return const Signup();
+      return const Signin();
     } else {
       // show main system routes
-      return const MyHomePage();
+      return MaterialApp(
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MyHomePage(),
+          '/add_tweet': (context) => const AddTweet(),
+        },
+      );
     }
   }
 }
