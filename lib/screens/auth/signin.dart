@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
+import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/auth/signup.dart';
 import 'package:twitter_clone/screens/home_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,12 +24,21 @@ class _SigninState extends State<Signin> {
     fToast!.init(context);
   }
 
+  String email = "";
+  String password = "";
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void signInAction() async {
+  UserModel _userFromFirebaseUser(User user) {
+    return UserModel(id: user.uid);
+  }
+
+  Future signInAction(
+      String email, String password, BuildContext context) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      User user = (await auth.signInWithEmailAndPassword(
+          email: email, password: password)) as User;
+      _userFromFirebaseUser(user);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -44,9 +54,6 @@ class _SigninState extends State<Signin> {
       _showToast("An unexpected error has occurred.", context);
     }
   }
-
-  String email = "";
-  String password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +71,7 @@ class _SigninState extends State<Signin> {
           ),
           const Spacer(flex: 1),
           ElevatedButton(
-            onPressed: () async => {signInAction()},
+            onPressed: () async => {signInAction(email, password, context)},
             child: const Text(
               "Sign In",
               style: TextStyle(color: Color.fromRGBO(29, 161, 242, 1)),
