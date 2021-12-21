@@ -39,7 +39,6 @@ class AuthService {
       }
     } catch (e) {
       message = "An unexpected error has occurred.";
-      print(e.toString());
     }
   }
 

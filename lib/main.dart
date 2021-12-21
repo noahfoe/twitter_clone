@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:twitter_clone/models/user.dart';
-import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:twitter_clone/screens/wrapper.dart';
 import 'package:twitter_clone/services/auth_service.dart';

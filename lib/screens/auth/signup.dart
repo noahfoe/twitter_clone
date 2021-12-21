@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
-import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
-import 'package:twitter_clone/screens/home_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 
