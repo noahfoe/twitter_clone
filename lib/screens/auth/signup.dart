@@ -40,6 +40,7 @@ class _SignupState extends State<Signup> {
         children: [
           Container(
             height: height / 1.4,
+            width: width,
             color: const Color.fromRGBO(29, 161, 242, 1),
             child: myCustomForm(_isObscure),
           ),

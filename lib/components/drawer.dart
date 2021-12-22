@@ -179,8 +179,13 @@ class MyDrawer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          Container(
             height: 50,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.grey),
+              ),
+            ),
             child: Row(
               children: const [
                 Spacer(flex: 1),
