@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twitter_clone/components/drawer.dart';
+import 'package:twitter_clone/screens/profile_screen.dart';
 import 'package:twitter_clone/screens/tweets/add_tweet.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 
@@ -11,11 +13,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  GlobalKey<ScaffoldState>? scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    const int followingCount = 263;
+    const int followerCount = 91;
+    const bool isPrivateAccount = true;
     final size = MediaQuery.of(context).size;
     final AuthService _authService = AuthService();
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: SizedBox(
           width: size.width / 12,
@@ -28,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            // TODO: Handle on tap profile pic
+            scaffoldKey!.currentState?.openDrawer();
           },
           child: CircleAvatar(
             backgroundColor: Colors.white,
@@ -54,6 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
         ],
+      ),
+      drawer: MyDrawer(
+        scaffoldKey: scaffoldKey,
+        isPrivateAccount: isPrivateAccount,
+        followingCount: followingCount,
+        followerCount: followerCount,
       ),
       body: Center(
         child: Column(
