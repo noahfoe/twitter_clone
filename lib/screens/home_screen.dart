@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter_clone/components/drawer.dart';
-import 'package:twitter_clone/screens/profile_screen.dart';
 import 'package:twitter_clone/screens/tweets/add_tweet.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 
