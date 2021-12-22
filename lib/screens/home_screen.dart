@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twitter_clone/screens/tweets/add_tweet.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -64,7 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Create a new tweet
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddTweet(),
+            ),
+          );
         },
         backgroundColor: const Color.fromRGBO(29, 161, 242, 1),
         child: const FaIcon(FontAwesomeIcons.featherAlt),
