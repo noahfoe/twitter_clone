@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:twitter_clone/screens/edit_profile_screen.dart';
 import 'package:twitter_clone/screens/tweets/list_tweets.dart';
 import 'package:twitter_clone/services/tweets.dart';
 
@@ -44,7 +45,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-        body: const ListTweets(),
+        body: Column(
+          children: [
+            OutlinedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EditProfile(),
+                ),
+              ),
+              child: const Text("Edit Profile"),
+            ),
+            const Expanded(
+              child: ListTweets(),
+            ),
+          ],
+        ),
       ),
     );
   }
