@@ -27,6 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late int followerCount;
   late String username;
   late String name;
+  late String bio;
+  late String location;
 
   Future<int?> getFollowing() async {
     followingCount = await _prefs.getFollowingFromSharedPref();
@@ -53,6 +55,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return isPrivateAccount;
   }
 
+  Future<String?> getBio() async {
+    bio = await _prefs.getBioFromSharedPrefs();
+    return bio;
+  }
+
+  Future<String?> getLocation() async {
+    location = await _prefs.getLocationFromSharedPrefs();
+    return location;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -63,6 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           getUsername(),
           getName(),
           getIsPrivateAccount(),
+          getBio(),
+          getLocation(),
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -206,11 +220,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           Text(snapshot.data![2]),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Text(
-                              "App Developer for Aderoo\nTexas State University Alumni - Computer Science major, minors in Comm Studies and Applied Math",
-                              style: TextStyle(fontSize: 15),
+                              snapshot.data![5],
+                              style: const TextStyle(fontSize: 15),
                             ),
                           ),
                           Row(
@@ -220,9 +234,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onTap: () {
                                   // TODO: Implement on tap location
                                 },
-                                child: const Text(
-                                  "Carthage, TX",
-                                  style: TextStyle(color: Colors.blue),
+                                child: Text(
+                                  snapshot.data![6],
+                                  style: const TextStyle(color: Colors.blue),
                                 ),
                               ),
                               const Padding(

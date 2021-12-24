@@ -15,10 +15,27 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   File? _profilePicture;
   File? _bannerPicture;
+
   final picker = ImagePicker();
   final SharedPrefs _prefs = SharedPrefs();
 
-  late String name;
+  late String _name;
+  final TextEditingController _nameController = TextEditingController(text: "");
+
+  late String _bio;
+  final TextEditingController _bioController = TextEditingController(text: "");
+
+  late String _location;
+  final TextEditingController _locationController =
+      TextEditingController(text: "");
+
+  late String _website;
+  final TextEditingController _websiteController =
+      TextEditingController(text: "");
+
+  late String _birthdate;
+  final TextEditingController _birthdateController =
+      TextEditingController(text: "");
 
   Future getImage(int type, bool isCamera) async {
     if (isCamera) {
@@ -82,10 +99,48 @@ class _EditProfileState extends State<EditProfile> {
         });
   }
 
+  getData() async {
+    await _prefs.getNameFromSharedPref().then((value) {
+      setState(() {
+        _nameController.text = value;
+        _name = value;
+      });
+    });
+    await _prefs.getBioFromSharedPrefs().then((value) {
+      setState(() {
+        _bioController.text = value;
+        _bio = value;
+      });
+    });
+    await _prefs.getLocationFromSharedPrefs().then((value) {
+      setState(() {
+        _locationController.text = value;
+        _location = value;
+      });
+    });
+    await _prefs.getWebsiteFromSharedPrefs().then((value) {
+      setState(() {
+        _websiteController.text = value;
+        _website = value;
+      });
+    });
+    await _prefs.getBirthdateFromSharedPrefs().then((value) {
+      setState(() {
+        _birthdateController.text = value;
+        _birthdate = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -113,7 +168,11 @@ class _EditProfileState extends State<EditProfile> {
                     const Color.fromRGBO(0, 0, 0, 1))),
             onPressed: () {
               // TODO: Save profile data
-              _prefs.setNameFromSharedPref(name);
+              _prefs.setNameFromSharedPref(_name);
+              _prefs.setBioFromSharedPrefs(_bio);
+              _prefs.setLocationFromSharedPrefs(_location);
+              _prefs.setWebsiteFromSharedPrefs(_website);
+              _prefs.setBirthdateFromSharedPrefs(_birthdate);
             },
             child: const Text("Save"),
           ),
@@ -182,7 +241,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     TextFormField(
                       // TODO: Prepoulate with users name
-                      initialValue: "",
+                      controller: _nameController,
                       decoration: const InputDecoration(
                         label: Text(
                           "Name",
@@ -191,10 +250,11 @@ class _EditProfileState extends State<EditProfile> {
                         hintText: "Name connot be blank",
                       ),
                       onChanged: (val) => setState(() {
-                        name = val;
+                        _name = val;
                       }),
                     ),
                     TextFormField(
+                      controller: _bioController,
                       maxLines: 3,
                       decoration: const InputDecoration(
                         label: Text(
@@ -203,11 +263,12 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       onChanged: (val) => setState(() {
-                        name = val;
+                        _bio = val;
                       }),
                     ),
                     // TODO: Location dropdown selector
                     TextFormField(
+                      controller: _locationController,
                       decoration: const InputDecoration(
                         label: Text(
                           "Location",
@@ -215,10 +276,11 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       onChanged: (val) => setState(() {
-                        name = val;
+                        _location = val;
                       }),
                     ),
                     TextFormField(
+                      controller: _websiteController,
                       decoration: const InputDecoration(
                         label: Text(
                           "Website",
@@ -226,12 +288,13 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       onChanged: (val) => setState(() {
-                        name = val;
+                        _website = val;
                       }),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: TextFormField(
+                        controller: _birthdateController,
                         decoration: const InputDecoration(
                           label: Text(
                             "Birth date",
@@ -239,7 +302,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ),
                         onChanged: (val) => setState(() {
-                          name = val;
+                          _birthdate = val;
                         }),
                       ),
                     ),

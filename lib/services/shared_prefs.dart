@@ -76,4 +76,64 @@ class SharedPrefs {
       return false;
     }
   }
+
+  Future<void> setBioFromSharedPrefs(String val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('bio', val);
+  }
+
+  Future<String> getBioFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? bio = prefs.getString('bio');
+    if (bio != null) {
+      return bio;
+    } else {
+      return "";
+    }
+  }
+
+  Future<void> setLocationFromSharedPrefs(String val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('location', val);
+  }
+
+  Future<String> getLocationFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? location = prefs.getString('location');
+    if (location != null) {
+      return location;
+    } else {
+      return "";
+    }
+  }
+
+  Future<void> setWebsiteFromSharedPrefs(String val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('website', val);
+  }
+
+  Future<String> getWebsiteFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? website = prefs.getString('website');
+    if (website != null) {
+      return website;
+    } else {
+      return "";
+    }
+  }
+
+  Future<void> setBirthdateFromSharedPrefs(String val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('birthdate', val);
+  }
+
+  Future<String> getBirthdateFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? birthdate = prefs.getString('birthdate');
+    if (birthdate != null) {
+      return birthdate;
+    } else {
+      return "";
+    }
+  }
 }
