@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
+import 'package:twitter_clone/components/signup/name_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
+import 'package:twitter_clone/components/signup/username_field.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twitter_clone/services/auth_service.dart';
+import 'package:twitter_clone/services/shared_prefs.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -25,7 +28,10 @@ class _SignupState extends State<Signup> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   final AuthService _authService = AuthService();
+  final SharedPrefs _sharedPrefs = SharedPrefs();
 
+  String username = "";
+  String name = "";
   String email = "";
   String password = "";
 
@@ -46,10 +52,16 @@ class _SignupState extends State<Signup> {
           ),
           const Spacer(flex: 1),
           ElevatedButton(
-            onPressed: () async => {
-              _authService.signUpAction(email, password, context),
-              if (_authService.message != "")
-                {_showToast(_authService.message, context)}
+            onPressed: () async {
+              await _sharedPrefs.setNameFromSharedPref(name);
+              await _sharedPrefs.setUsernameFromSharedPref(username);
+              await _sharedPrefs.setFollowersFromSharedPref(0);
+              await _sharedPrefs.setFollowingFromSharedPref(0);
+              await _sharedPrefs.setIsPrivateAccountFromSharedPrefs(false);
+              _authService.signUpAction(email, password, context);
+              if (_authService.message != "") {
+                _showToast(_authService.message, context);
+              }
             },
             child: const Text(
               "Sign Up",
@@ -81,11 +93,11 @@ class _SignupState extends State<Signup> {
                     color: Color.fromRGBO(29, 161, 242, 1),
                   ),
                 ),
-                onTap: () => {
+                onTap: () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Signin()),
-                  ),
+                  );
                 },
               ),
             ],
@@ -116,6 +128,18 @@ class _SignupState extends State<Signup> {
               ),
             ),
             const Spacer(flex: 1),
+            NameField(
+              onChanged: (val) => setState(() {
+                name = val;
+              }),
+            ),
+            const SizedBox(height: 10),
+            UsernameField(
+              onChanged: (val) => setState(() {
+                username = val;
+              }),
+            ),
+            const SizedBox(height: 10),
             EmailField(
               onChanged: (val) => setState(() {
                 email = val;

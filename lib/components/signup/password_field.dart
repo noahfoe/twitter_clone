@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -25,8 +26,8 @@ class _PasswordFieldState extends State<PasswordField> {
         decoration: InputDecoration(
           hintText: "Password",
           border: InputBorder.none,
-          icon: const Icon(
-            Icons.person_outline_rounded,
+          icon: const FaIcon(
+            FontAwesomeIcons.lock,
             color: Color.fromRGBO(29, 161, 242, 1),
           ),
           suffixIcon: IconButton(

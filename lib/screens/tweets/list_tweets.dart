@@ -31,11 +31,13 @@ class _ListTweetsState extends State<ListTweets> {
                 Icons.lock,
                 size: 15,
               ),
+              // tweet.username
               Text(" @NFooley1999 "),
               FaIcon(
                 FontAwesomeIcons.solidCircle,
                 size: 3,
               ),
+              // tweet.time - converted
               Text(" 22 Dec 21"),
             ],
           ),
@@ -50,14 +52,17 @@ class _ListTweetsState extends State<ListTweets> {
                 children: const [
                   FaIcon(FontAwesomeIcons.comment, size: 20),
                   Spacer(flex: 1),
+                  // tweet.comments.length
                   Text("1"),
                   Spacer(flex: 4),
                   FaIcon(FontAwesomeIcons.retweet, size: 20),
                   Spacer(flex: 1),
+                  // tweet.retweets.length
                   Text("10"),
                   Spacer(flex: 4),
                   FaIcon(FontAwesomeIcons.heart, size: 20),
                   Spacer(flex: 1),
+                  // tweet.likes.length
                   Text("1"),
                   Spacer(flex: 4),
                   FaIcon(FontAwesomeIcons.shareAlt, size: 20),

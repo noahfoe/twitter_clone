@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:twitter_clone/services/shared_prefs.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class _EditProfileState extends State<EditProfile> {
   File? _profilePicture;
   File? _bannerPicture;
   final picker = ImagePicker();
-  String name = "";
+  final SharedPrefs _prefs = SharedPrefs();
+
+  late String name;
 
   Future getImage(int type, bool isCamera) async {
     if (isCamera) {
@@ -82,6 +85,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -109,6 +113,7 @@ class _EditProfileState extends State<EditProfile> {
                     const Color.fromRGBO(0, 0, 0, 1))),
             onPressed: () {
               // TODO: Save profile data
+              _prefs.setNameFromSharedPref(name);
             },
             child: const Text("Save"),
           ),
@@ -176,6 +181,8 @@ class _EditProfileState extends State<EditProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      // TODO: Prepoulate with users name
+                      initialValue: "",
                       decoration: const InputDecoration(
                         label: Text(
                           "Name",

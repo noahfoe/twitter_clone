@@ -8,14 +8,18 @@ class MyDrawer extends StatelessWidget {
   final bool isPrivateAccount;
   final int followingCount;
   final int followerCount;
+  final String username;
+  final String name;
 
-  const MyDrawer(
-      {Key? key,
-      required this.scaffoldKey,
-      required this.isPrivateAccount,
-      required this.followingCount,
-      required this.followerCount})
-      : super(key: key);
+  const MyDrawer({
+    Key? key,
+    required this.scaffoldKey,
+    required this.isPrivateAccount,
+    required this.followingCount,
+    required this.followerCount,
+    required this.username,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +59,9 @@ class MyDrawer extends StatelessWidget {
                   const Spacer(flex: 1),
                   Row(
                     children: [
-                      const Text(
-                        "Noah Foley",
-                        style: TextStyle(color: Colors.black),
+                      Text(
+                        name,
+                        style: const TextStyle(color: Colors.black),
                       ),
                       const Spacer(flex: 1),
                       isPrivateAccount
@@ -76,11 +80,11 @@ class MyDrawer extends StatelessWidget {
                   ),
                   const Spacer(flex: 1),
                   Row(
-                    children: const [
+                    children: [
                       Text(
-                        "@NFooley1999",
-                        style:
-                            TextStyle(color: Color.fromRGBO(140, 148, 155, 1)),
+                        username,
+                        style: const TextStyle(
+                            color: Color.fromRGBO(140, 148, 155, 1)),
                       ),
                     ],
                   ),
