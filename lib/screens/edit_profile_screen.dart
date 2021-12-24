@@ -41,6 +41,44 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  showAlertDialog(BuildContext context, int type) {
+    AlertDialog alert = AlertDialog(
+      actionsAlignment: MainAxisAlignment.start,
+      actions: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () async {
+                await getImage(type, true);
+                // TODO: Add Image Cropper
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text("Take photo"),
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                await getImage(type, false);
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text("Choose existing photo"),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -69,7 +107,9 @@ class _EditProfileState extends State<EditProfile> {
             style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
                     const Color.fromRGBO(0, 0, 0, 1))),
-            onPressed: () {},
+            onPressed: () {
+              // TODO: Save profile data
+            },
             child: const Text("Save"),
           ),
         ],
@@ -82,7 +122,7 @@ class _EditProfileState extends State<EditProfile> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // TODO: Add ability to change banner
+                    showAlertDialog(context, 1);
                   },
                   child: SizedBox(
                     width: double.infinity,
@@ -105,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // TODO: Add ability to change profile pic
+                    showAlertDialog(context, 0);
                   },
                   child: CircleAvatar(
                     radius: 40,

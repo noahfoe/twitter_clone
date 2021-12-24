@@ -81,7 +81,7 @@ class _AddTweetState extends State<AddTweet> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
-                      "img/headshot.jpg",
+                      "img/defaultPfp.jpg",
                       width: size.width / 11,
                     ),
                   ),
