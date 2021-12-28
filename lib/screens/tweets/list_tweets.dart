@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:twitter_clone/models/tweet.dart';
 
@@ -15,30 +16,31 @@ class _ListTweetsState extends State<ListTweets> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final tweets = Provider.of<List<TweetModel>?>(context) ?? [];
+
     return ListView.builder(
       itemCount: tweets.length,
       itemBuilder: (context, index) {
         final tweet = tweets[index];
+        DateTime date = tweet.time.toDate().toLocal();
         return ListTile(
           contentPadding: const EdgeInsets.all(10.0),
-          // TODO: Add user information
           title: Row(
-            children: const [
+            children: [
               // tweet.user
-              Text("Noah Foley "),
+              Text(tweet.user),
               // TODO: Add lock only if user is a private account
-              Icon(
+              const Icon(
                 Icons.lock,
                 size: 15,
               ),
               // tweet.username
-              Text(" @NFooley1999 "),
-              FaIcon(
+              Text(" " + tweet.username + " "),
+              const FaIcon(
                 FontAwesomeIcons.solidCircle,
                 size: 3,
               ),
               // tweet.time - converted
-              Text(" 22 Dec 21"),
+              Text(DateFormat(' dd LLL yy').format(date)),
             ],
           ),
           subtitle: Column(

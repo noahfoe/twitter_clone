@@ -58,7 +58,7 @@ class _SignupState extends State<Signup> {
               await _sharedPrefs.setFollowersFromSharedPref(0);
               await _sharedPrefs.setFollowingFromSharedPref(0);
               await _sharedPrefs.setIsPrivateAccountFromSharedPrefs(false);
-              _authService.signUpAction(email, password, context);
+              _authService.signUpAction(email, password, username, context);
               if (_authService.message != "") {
                 _showToast(_authService.message, context);
               }

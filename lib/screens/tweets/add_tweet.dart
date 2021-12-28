@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twitter_clone/models/user.dart';
+import 'package:twitter_clone/services/auth_service.dart';
+import 'package:twitter_clone/services/shared_prefs.dart';
 import 'package:twitter_clone/services/tweets.dart';
 
 class AddTweet extends StatefulWidget {
@@ -11,7 +15,11 @@ class AddTweet extends StatefulWidget {
 
 class _AddTweetState extends State<AddTweet> {
   final TweetService _tweetService = TweetService();
+  final SharedPrefs _sharedPrefs = SharedPrefs();
   String tweetText = "";
+  String username = "";
+  String user = "";
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -34,7 +42,9 @@ class _AddTweetState extends State<AddTweet> {
             child: ElevatedButton(
               onPressed: () async {
                 if (tweetText != "") {
-                  _tweetService.saveTweet(tweetText);
+                  username = await _sharedPrefs.getUsernameFromSharedPref();
+                  user = await _sharedPrefs.getNameFromSharedPref();
+                  _tweetService.saveTweet(tweetText, username, user);
                   Navigator.of(context).pop();
                 }
               },

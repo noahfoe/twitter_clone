@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:twitter_clone/models/tweet.dart';
 
 class TweetService {
-  Future saveTweet(String text) async {
+  Future saveTweet(String text, String username, String user) async {
     await FirebaseFirestore.instance.collection("tweets").add({
       'text': text,
       'uid': FirebaseAuth.instance.currentUser!.uid,
-      // 'username': FirebaseAuth.instance.currentUser.username
+      'username': username,
+      'user': user,
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
@@ -15,11 +16,11 @@ class TweetService {
   List<TweetModel> _tweetListFromSnapshot(QuerySnapshot? snapshot) {
     return snapshot!.docs.map((doc) {
       return TweetModel(
-        doc.id,
         (doc.data() as Map)['uid'] ?? '',
-        //(doc.data() as Map)['username'] ?? '',
+        (doc.data() as Map)['user'] ?? '',
+        (doc.data() as Map)['username'] ?? '',
         (doc.data() as Map)['text'] ?? '',
-        (doc.data() as Map)['time'] ?? Timestamp(0, 0),
+        (doc.data() as Map)['timestamp'] ?? Timestamp(0, 0),
       );
     }).toList();
   }

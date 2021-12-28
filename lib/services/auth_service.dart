@@ -43,15 +43,19 @@ class AuthService {
     }
   }
 
-  Future signUpAction(
-      String email, String password, BuildContext context) async {
+  Future signUpAction(String email, String password, String username,
+      BuildContext context) async {
     try {
       UserCredential userCred = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCred.user!.uid)
-          .set({'name': userCred.user!.uid, 'email': email});
+          .set({
+        'name': userCred.user!.uid,
+        'email': email,
+        'username': username
+      });
       _userFromFirebaseUser(userCred.user);
       Navigator.pushReplacement(
         context,

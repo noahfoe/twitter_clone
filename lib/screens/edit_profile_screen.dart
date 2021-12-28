@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
+import 'package:twitter_clone/services/user.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final UserService _userService = UserService();
   File? _profilePicture;
   File? _bannerPicture;
 
@@ -166,13 +168,15 @@ class _EditProfileState extends State<EditProfile> {
             style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
                     const Color.fromRGBO(0, 0, 0, 1))),
-            onPressed: () {
-              // TODO: Save profile data
+            onPressed: () async {
+              await _userService.updateProfile(
+                  _bannerPicture, _profilePicture, _name);
               _prefs.setNameFromSharedPref(_name);
               _prefs.setBioFromSharedPrefs(_bio);
               _prefs.setLocationFromSharedPrefs(_location);
               _prefs.setWebsiteFromSharedPrefs(_website);
               _prefs.setBirthdateFromSharedPrefs(_birthdate);
+              Navigator.pop(context);
             },
             child: const Text("Save"),
           ),
