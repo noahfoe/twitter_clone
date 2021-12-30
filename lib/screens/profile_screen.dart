@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/edit_profile_screen.dart';
 import 'package:twitter_clone/screens/tweets/list_tweets.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
 import 'package:twitter_clone/services/tweets.dart';
+import 'package:twitter_clone/services/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File? _bannerPicture;
   File? _profilePicture;
   final TweetService _tweetService = TweetService();
+  final UserService _userService = UserService();
   final SharedPrefs _prefs = SharedPrefs();
 
   late bool isPrivateAccount;
@@ -80,10 +83,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return StreamProvider.value(
-              value: _tweetService
-                  .getTweetsByUser(FirebaseAuth.instance.currentUser!.uid),
-              initialData: null,
+            return MultiProvider(
+              providers: [
+                StreamProvider.value(
+                    value: _tweetService.getTweetsByUser(
+                        FirebaseAuth.instance.currentUser!.uid),
+                    initialData: null),
+                StreamProvider.value(
+                    value: _userService
+                        .getUserInfo(FirebaseAuth.instance.currentUser!.uid),
+                    initialData: null),
+              ],
               child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: const Color.fromRGBO(29, 161, 242, 1),

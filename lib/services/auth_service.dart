@@ -10,7 +10,12 @@ class AuthService {
   late String message = "";
 
   UserModel _userFromFirebaseUser(User? user) {
-    return UserModel(id: user!.uid);
+    return UserModel(
+        id: user!.uid,
+        bannerImage:
+            "https://www.matildastory.com/wp-content/uploads/2019/08/Twitter-Header-Turquoise-001.png",
+        profileImage:
+            "https://blog.dlvrit.com/wp-content/uploads/Twitter-Egg-300x300.jpeg");
   }
 
   Stream<UserModel> get user {
