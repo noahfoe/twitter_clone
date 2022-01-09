@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
-import 'package:twitter_clone/screens/auth/signup.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 
 class Signin extends StatefulWidget {
@@ -84,12 +84,7 @@ class _SigninState extends State<Signin> {
                     color: Color.fromRGBO(29, 161, 242, 1),
                   ),
                 ),
-                onTap: () => {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Signup()),
-                  ),
-                },
+                onTap: () => context.goNamed('signup'),
               ),
             ],
           ),

@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:twitter_clone/models/user.dart';
-import 'package:twitter_clone/screens/edit_profile_screen.dart';
 import 'package:twitter_clone/screens/tweets/list_tweets.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
 import 'package:twitter_clone/services/tweets.dart';
@@ -149,12 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               OutlinedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const EditProfile(),
-                                  ),
-                                ),
+                                onPressed: () => context.goNamed('edit'),
                                 style: ButtonStyle(
                                   side: MaterialStateProperty.all<BorderSide>(
                                       const BorderSide(color: Colors.black45)),

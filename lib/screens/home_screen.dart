@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:twitter_clone/components/drawer.dart';
-import 'package:twitter_clone/screens/tweets/add_tweet.dart';
 import 'package:twitter_clone/screens/tweets/list_tweets.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
@@ -119,12 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AddTweet(),
-                      ),
-                    );
+                    context.goNamed('tweet');
                   },
                   backgroundColor: const Color.fromRGBO(29, 161, 242, 1),
                   child: const FaIcon(FontAwesomeIcons.featherAlt),

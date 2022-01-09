@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:twitter_clone/screens/profile_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 
 class MyDrawer extends StatelessWidget {
@@ -129,12 +129,7 @@ class MyDrawer extends StatelessWidget {
                   leading: const FaIcon(FontAwesomeIcons.user),
                   title: const Text("Profile"),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileScreen(),
-                      ),
-                    );
+                    context.goNamed('profile');
                   },
                 ),
                 const ListTile(

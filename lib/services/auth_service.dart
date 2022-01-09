@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter_clone/models/user.dart';
 import 'package:twitter_clone/screens/auth/signin.dart';
-import 'package:twitter_clone/screens/home_screen.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -31,12 +31,7 @@ class AuthService {
               email: email, password: password))
           .user;
       _userFromFirebaseUser(user);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MyHomePage(),
-        ),
-      );
+      context.goNamed('home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         message = "The password provided is incorrect.";
@@ -62,12 +57,7 @@ class AuthService {
         'username': username
       });
       _userFromFirebaseUser(userCred.user);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MyHomePage(),
-        ),
-      );
+      context.goNamed('home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         message = "The password provided is too weak.";

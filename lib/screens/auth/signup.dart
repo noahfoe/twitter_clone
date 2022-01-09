@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter_clone/components/signup/email_field.dart';
 import 'package:twitter_clone/components/signup/name_field.dart';
 import 'package:twitter_clone/components/signup/password_field.dart';
 import 'package:twitter_clone/components/signup/username_field.dart';
-import 'package:twitter_clone/screens/auth/signin.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twitter_clone/services/auth_service.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
@@ -93,12 +93,7 @@ class _SignupState extends State<Signup> {
                     color: Color.fromRGBO(29, 161, 242, 1),
                   ),
                 ),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Signin()),
-                  );
-                },
+                onTap: () => context.goNamed('signin'),
               ),
             ],
           ),

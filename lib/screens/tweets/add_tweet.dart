@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:twitter_clone/models/user.dart';
-import 'package:twitter_clone/services/auth_service.dart';
 import 'package:twitter_clone/services/shared_prefs.dart';
 import 'package:twitter_clone/services/tweets.dart';
 
